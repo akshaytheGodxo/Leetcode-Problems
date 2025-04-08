@@ -1,54 +1,40 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
-
+using namespace std;
 // sort the initial array to make it ready for the binary search baby and then initialise two pointers simultaneously two check at each moment if it is equal to the search varibale fck yeas bitches
 
-std::vector<int> twoSum(std::vector<int> nums, int target, int idx) {
-    std::sort(nums.begin(), nums.end());
-    int left = 0;
-    int right = nums.size() - 1;
-    std::vector<int> output;
-    while (left < right) {
-        int sum = nums[left] + nums[right];
-        if (sum == target && left != right && (left != idx && right != idx)) {
-            output.push_back(nums[left]);
-            output.push_back(nums[right]);
-            break;
-        } else if (sum < target || left == idx) {
-            left++;
-        }else if (sum > target || right == idx){
-            right--;
-        }
 
-    }
-    return output;
-}
 
 std::vector<std::vector<int>> threeSum(std::vector<int>& nums) {
-    std::vector<std::vector<int>> output;
-    std::sort(nums.begin(), nums.end());
+    sort(nums.begin(), nums.end());
+    vector<vector<int>> output;
     int n = nums.size();
-    std::vector<int> window;
-    int prevSum = 0;
-    for (int i = 0;i < n;i++) {
-        prevSum += nums[i];
-        int search = 0 - prevSum;
-        window.push_back(prevSum);
 
-        std::vector<int> Tsum = twoSum(nums, search, i);
-        if (Tsum.size() == 2) {
-            window.push_back(Tsum[0]);
-            window.push_back(Tsum[1]);
-            // search if the window is already present in the fcking output or not
-            std::sort(window.begin(), window.end());
-            auto it = std::find(output.begin(), output.end(), window);
-            if (!(it != output.end())) {
-                output.push_back(window);
+    for (int i = 0;i < n-2;i++) {
+        if (i > 0 && nums[i] == nums[i-2]) continue;
+
+        int left = i + 1;
+        int right = n-1;
+
+        while (left < right) {
+            int sum = nums[i] + nums[left] + nums[right];
+            if (sum == 0) {
+                output.push_back({nums[i], nums[left], nums[right]});
+                //handling duplicates
+                while (left < right && nums[left] == nums[left + 1]) ++left;
+                while (left < right && nums[right] == nums[right - 1]) --right;
+            
+                ++left;
+                --right;
+            }
+            else if (sum < 0) {
+                ++left;
+            }
+            else {
+                --right;
             }
         }
-        prevSum = 0;
-        window.clear();
     }
     return output;
 }

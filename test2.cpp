@@ -1,20 +1,10 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <cstdlib>
+#include <bits/stdc++.h>
+using namespace std;
+
+
 int main() {
-    std::vector<int> v = {1, 2, 3};
-    std::vector<int> u = {4, 5, 3};
-    int m = 3;
-    for (auto i : v) {
-        std::vector<int>::iterator it = std::find(u.begin(), u.end(), i);
-        if (it != u.end()) {
-            std::cout << i << " is present\n";
-        } else {
-            std::cout << "Value is not present\n";
-        }
-
-    }
+    string x = "2080";
+    string binary = bitset<8>(2080).to_string();
+    cout << binary;
     return 0;
-
 }
