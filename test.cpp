@@ -1,10 +1,14 @@
 #include <iostream>
-
+#include <math.h>
 using namespace std;
 
 int main() {
-
-    int x = abs('z' - 's');
-    cout << x << endl;
+    string k = "aa";
+    int size = k.length();
+    int req = pow(2, size) - size;
+    for (int i = 0;i < req;i++) {
+        k += k;
+    }
+    cout << k;
     return 0;
 }
