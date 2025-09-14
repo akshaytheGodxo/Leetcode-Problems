@@ -1,5 +1,5 @@
 public class flattenTree {
-    
+        
 }
 
 class TreeNode {

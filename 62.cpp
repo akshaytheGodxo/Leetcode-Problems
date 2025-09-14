@@ -12,8 +12,7 @@ private:
 public:
     int uniquePaths(int m, int n) {
     	int ans = 0;
-    	vector<int>(m, vector<int>(n, 0));
-
+    	
 
     	return ans;
     }
