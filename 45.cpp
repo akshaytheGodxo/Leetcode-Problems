@@ -1,44 +1,26 @@
 #include <iostream>
 #include <vector>
-
+#include <algorithm>
 using namespace std;
 
 class Solution {
 
 public:
-  int searchRange(vector<int> v, int start, int range) {
-    if (range > v.size())
-      return -1;
 
-    int largest = v[start];
-    int idx = start;
-    for (int i = start; i <= start + range; i++) {
-      if (v[i] > largest) {
-        largest = v[i];
-        idx = i;
-      }
-    }
-    return idx;
-  }
+ int jump(int A[], int n) {
+	 if(n<2)return 0;
+	 int level=0,currentMax=0,i=0,nextMax=0;
 
-  int jump(vector<int> &nums) {
-    int st = 0;
-    int steps = 0;
-    int n = nums.size();
-    int i = 0;
-    while (i < n - 1) {
-      int jmp_range = nums[i];
-      st = searchRange(nums, i, jmp_range);
-      if (st == -1) {
-        i = n - 1;
-        steps++;
-        break;
-      }
-      i = st;
-      steps++;
-    }
-    return steps;
-  }
+	 while(currentMax-i+1>0){		//nodes count of current level>0
+		 level++;
+		 for(;i<=currentMax;i++){	//traverse current level , and update the max reach of next level
+			nextMax=max(nextMax,A[i]+i);
+			if(nextMax>=n-1)return level;   // if last element is in level+1,  then the min jump=level 
+		 }
+		 currentMax=nextMax;
+	 }
+	 return 0;
+ }
 };
 
 int main() {
