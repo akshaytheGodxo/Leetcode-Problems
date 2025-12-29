@@ -7,7 +7,7 @@ public:
         int n=gas.size();
         int total_gas = 0, total_cost = 0;
         int curr_gas = 0, starting_point = 0;
-        for (uint8_t i=0;i<n;i++) {
+        for (uint64_t i=0;i<n;i++) {
             total_gas += gas[i];
             total_cost += cost[i];
 
