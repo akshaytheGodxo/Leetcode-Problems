@@ -4,6 +4,7 @@ using namespace std;
 int static matrix[1001][1001];
 
 class Solution {
+	public:
  	int solve(string a, string b, int n, int m) {
 		if (n == 0 and m == 0) return 1;
 		if (n == 0) return 0;
