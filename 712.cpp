@@ -3,15 +3,29 @@ using namespace std;
 
 int matrix[1001][1001];
 
-int solve(string a, string b, int n, int m) {
-    if (n == 0) return b[0]; 
-    if (m == 0) return a[0];
+int solve(string s1, string s2, int n, int m) {
+    
+    vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
 
-    if (a[n-1] == b[m-1]) {
-        return solve(a,b,n-1,m-1);
-    } else {
-        return min({solve(a,b,n-1,m) + a[n-1], solve(a,b,n,m-1) + b[m-1], solve(a,b,n-1,m-1) + min(a[n-1], b[m-1])});
+    for (int i = 0; i < n; i++) 
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (s1[i] == s2[j]) {
+                dp[i+1][j+1] = dp[i][j] + s1[i];
+            } else {
+                dp[i+1][j+1] = max(dp[i][j+1], dp[i+1][j]);
+            }
+        }
+        
     }
+
+
+    int total = 0;
+    for (auto i : s1) total += i;
+    for (auto i : s2) total += i;
+
+    return total - 2*dp[n][m];
 
 }
 

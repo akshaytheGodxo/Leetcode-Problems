@@ -4,31 +4,38 @@ using namespace std;
 class Solution {
 public:
     int maximalRectangle(vector<vector<char>>& matrix) {
-        int m=matrix.size(), n=matrix[0].size();
+            if (matrix.empty()) return 0;
 
-        vector<vector<int>> dp(m+1, vector<int>(n+1,0));
-        int ans=0;
-        for (int i=1;i<=m;i++) {
-            for (int j=1;j<=n;j++) {
-                if (matrix[i-1][j-1] == '1') {
-                    dp[i][j] = dp[i][j-1] * dp[i-1][j];
-                    ans = max(dp[i][j], ans);
-                } 
-                else {
-                    if (matrix[i-1][j-2] == '1') {
-                        dp[i][j] = dp[i][j-1] + 1;
-                    }
+        int n = matrix[0].size();
+
+        vector<int> height(n+1, 0);
+        int max_area = 0;
+        for (int i=0;i<matrix.size();i++) {
+            for (int col = 0;col < n;col++){
+                if (matrix[i][col] == '1') {
+                    height[col] = height[col] + 1;
+                } else {
+                    height[col] = 0;
                 }
+            }
+
+            stack<int> st;
+            st.push(-1);
+
+            for (int col = 0;col <= n;col++) {
+                while ( st.top() != -1 && height[col] < height[st.top()] ) {
+                    int h = height[st.top()];
+                    st.pop();
+                    int w = col - st.top() - 1;
+
+                    max_area = max(max_area, h*w);
+                }
+
+                st.push(col);
             }
         }
 
-        for(auto &x : dp) {
-            for (auto &y : x) {
-                cout << y << " ";
-            } cout << "\n";
-        }
-        cout << "Area: ";
-        return ans;
+        return max_area;
     }
 };
 
