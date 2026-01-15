@@ -31,15 +31,6 @@ public:
                 }
             }
         }
-        
-
-
-
-        for (auto i : dp) {
-            for (auto j : i) {
-                cout << j << " ";
-            } cout << endl;
-        }
         return dp[n1][n2];
     }
 };
