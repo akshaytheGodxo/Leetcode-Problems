@@ -5,6 +5,12 @@ using namespace std;
 class Solution {
 public:
     bool isScramble(string s1, string s2) {
+        int n = s1.size();
+        int m = s2.size();
+        vector<vector<char>> dp(n+1, vector<char>(m+1));
+
+        dp[0][0] = s1[0];
+
         
     }
 };

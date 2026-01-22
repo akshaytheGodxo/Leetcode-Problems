@@ -3,20 +3,7 @@
 using namespace std;
 
 class Solution {
-    private: 
-    int solve(int amount, vector<int>& coins, int n, int &sum) {
-        if (n == 0) return 0;
 
-        if (sum + coins[n-1] == amount) {
-            return 1 + solve(amount, coins, n-1, sum);
-        } else if (sum + coins[n-1] < amount) {
-            int k = sum + coins[n-1];
-            return solve(amount, coins, n-1, k) + solve(amount, coins, n-1, sum);
-        } else if (sum + coins[n-1] > amount){
-            return 0;
-        }
-        
-    }
     public:
     int change(int amount, vector<int>& coins) {  
         ui n=coins.size();
@@ -35,7 +22,15 @@ class Solution {
                 }
             }
         }
-
+        for (ui i = 0; i <= n; i++)
+        {
+            for (ui j = 0; j <= amount ; j++) 
+            {
+                cout << dp[i][j] << " ";
+            } cout << "\n";
+            
+        }
+        
         return dp[n][amount];
     }
 };
