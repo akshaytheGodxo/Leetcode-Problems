@@ -1,28 +1,46 @@
 #include <bits/stdc++.h>
 using namespace std;
+// dp[i] = max(dp[i], prev_profit + prices[i] - cp)
 
+static int memo[100001][5];
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-        int n = prices.size();
-        vector<int> dp(n+1, 0);
-        
-        int cp = prices[0];
-        for (int i=1;i<=n;i++) {
-            if (prices[i-1] < cp) {
-                cp = prices[i-1];
-            } else {
-                dp[i] = prices[i-1] - cp + dp[i-1];
-            }
+    int solve(vector<int>& prices, int i, int tl) {
+        if (i == prices.size()) {
+            return 0;
+        } 
+
+        if (tl == 0) {
+            return 0;
         }
-        return dp[n];
+
+        if (memo[i][tl] != -1) {
+            return memo[i][tl];
+        }
+
+        int ans1 = solve(prices, i+1, tl);
+
+        bool buy = (tl % 2== 0);
+        int ans2 = 0;
+        if (buy) {
+            ans2 = -prices[i] + solve(prices, i+1, tl-1);
+        } else {
+            ans2 = prices[i] + solve(prices, i+1, tl-1);
+        }
+        return memo[i][tl] = max(ans1, ans2);
+    }
+
+    int maxProfit(vector<int>& prices) {
+        
+        memset(memo, -1, sizeof(memo));
+        return solve(prices, 0, 4);
     }
 };
 
 
 int main() {
     Solution s;
-    vector<int> prices = {3,3,5,0,0,3,1,4};
+    vector<int> prices = {1,2,4,2,5,7,2,4,9,0};
 
     cout << s.maxProfit(prices);
     return 0;
