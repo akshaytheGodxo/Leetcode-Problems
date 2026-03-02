@@ -6,31 +6,25 @@ class Solution {
 
     public:
     int change(int amount, vector<int>& coins) {  
-        ui n=coins.size();
+        int n=coins.size();
+        int dp[n+1][amount+1];
         
-        vector<vector<ui>> dp(n+1, vector<ui>(amount+1, 0));
-        for (ui i=1;i<=n;i++) {
+        for (int i=1;i<=n;i++) {
             dp[i][0] = 1;
+        } 
+        for (int i=1;i<=amount;i++) {
+            dp[0][i] = 0;
         }
 
-        for (ui w = 1;w<=amount;w++) {
-            for (ui i=1;i<=n;i++) {
-                if (coins[i-1] <= w) {
-                    dp[i][w] = dp[i][w - coins[i-1]] + dp[i-1][w];
-                } else {
-                    dp[i][w] = dp[i-1][w];
+
+        for (int i=1;i<=n;i++) {
+            for (int j=1;j<=amount;j++) {
+                dp[i][j] = dp[i-1][j];
+                if (j >= coins[i-1]) {
+                    dp[i][j] = max(dp[i-1][j], dp[i][j - coins[i-1]] + dp[i-1][j]);
                 }
             }
         }
-        for (ui i = 0; i <= n; i++)
-        {
-            for (ui j = 0; j <= amount ; j++) 
-            {
-                cout << dp[i][j] << " ";
-            } cout << "\n";
-            
-        }
-        
         return dp[n][amount];
     }
 };
