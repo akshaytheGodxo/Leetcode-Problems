@@ -1,52 +1,51 @@
-#include <iostream>
-#include <vector>
-#include <deque>
-#include <climits>
 
+#include <bits/stdc++.h>
 using namespace std;
 
 int shortestSubarray(vector<int>& nums, int k) {
-    int n = nums.size();
-    vector<long long> prefix_sum(n + 1, 0);
+    int n=nums.size();
+    vector<int> pref(n, 0);
+    pref[0] = nums[0];
 
-    // Calculate the prefix sum
-    for (int i = 0; i < n; ++i) {
-        prefix_sum[i + 1] = prefix_sum[i] + nums[i];
+    for (int i=1;i<n;i++) {
+        pref[i] += pref[i-1] + nums[i];
     }
-
-    deque<int> deque_indices;
-    int min_length = INT_MAX;
-
-    for (int i = 0; i <= n; ++i) {
-        // Ensure the subarray sum is at least k
-        while (!deque_indices.empty() && prefix_sum[i] - prefix_sum[deque_indices.front()] >= k) {
-            min_length = min(min_length, i - deque_indices.front());
-            deque_indices.pop_front();
+    
+    deque<int> dq;
+    int res = INT_MAX;
+    for (int i=0;i<n;i++) {
+        while (!dq.empty() && pref[i] - pref[dq.front() >= k]) {
+            res = min(res, i - dq.front());
+            dq.pop_front();
         }
 
-        // Maintain a decreasing order of prefix sums
-        while (!deque_indices.empty() && prefix_sum[i] <= prefix_sum[deque_indices.back()]) {
-            deque_indices.pop_back();
+        while (!dq.empty() && pref[i] <= pref[dq.back()]) {
+            dq.pop_back();
         }
 
-        deque_indices.push_back(i);
+        dq.push_back(i);
     }
-
-    return (min_length == INT_MAX) ? -1 : min_length;
+    return res;
 }
 
 int main() {
-    vector<int> nums1 = {1};
-    int k1 = 1;
-    cout << shortestSubarray(nums1, k1) << endl;  // Output: 1
+    // vector<int> nums1 = {1};
+    // int k1 = 1;
+    // cout << shortestSubarray(nums1, k1) << endl;  // Output: 1
 
-    vector<int> nums2 = {1, 2};
-    int k2 = 4;
-    cout << shortestSubarray(nums2, k2) << endl;  // Output: -1
+    // vector<int> nums2 = {1, 2};
+    // int k2 = 4;
+    // cout << shortestSubarray(nums2, k2) << endl;  // Output: -1
 
-    vector<int> nums3 = {2, -1, 2};
-    int k3 = 3;
-    cout << shortestSubarray(nums3, k3) << endl;  // Output: 3
+    // vector<int> nums3 = {2, -1, 2};
+    // int k3 = 3;
+    // cout << shortestSubarray(nums3, k3) << endl;  // Output: 3
+
+    vector<int> nums = {-28,81,-20,28,-29};
+    int k = 89;
+
+    cout << shortestSubarray(nums, k);
+
 
     return 0;
 }
