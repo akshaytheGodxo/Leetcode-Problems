@@ -5,20 +5,19 @@ using namespace std;
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        int max_prof = 0;
-        int curr_stock = prices[0];
-        int n = prices.size();
-        for (uint64_t i=1;i<n;i++) {
-            cout << curr_stock << "\n";
-            if (curr_stock<prices[i]) {
-                max_prof += prices[i] - curr_stock;
+        int maxi = 0;
+        int low = prices[0];
+        int res = 0;
+        for (int i=0;i<prices.size();i++) {
+            
+            if (prices[i] > low) {
+                maxi += prices[i] - low;
             }
-            curr_stock = prices[i];
+            low = prices[i];
         }
-        return max_prof;
+        return maxi == INT_MIN ? 0 : maxi;
     }
 };
-
 int main() {
     Solution s;
     vector<int> profit =  {7,1,5,3,6,4};
