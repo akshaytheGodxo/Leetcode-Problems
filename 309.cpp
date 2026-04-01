@@ -3,17 +3,39 @@ using namespace std;
 
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-       int n=prices.size();
-       vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
-       for (int i=1;i<=n;i++) {
-        for (int j=1;j<=n;j++) {
-            dp[i][j] = 0;
-            if (j-1 > i-1) {
-                dp[i] = max()
+    int dp[5001][2][2];
+    int recur(vector<int> prices, int i, int cooldown, bool buy) {
+        if (i >= prices.size()) return 0;
+
+        if (dp[i][cooldown][buy] != INT_MIN) return dp[i][cooldown][buy];
+
+        if (buy) {
+            int not_taken = INT_MIN, taken = INT_MIN;
+            
+            if (cooldown) {
+                not_taken = recur(prices, i+1, false, true);
+            } else {
+                not_taken = recur(prices, i+1, false, true);
+                taken = -prices[i] + recur(prices, i+1, false, false);
             }
+
+            return dp[i][cooldown][buy] = max(taken, not_taken);
+        } else {
+
+            int sold = prices[i] + recur(prices, i+1, true, true);
+            // else if skipp ? 
+            int not_sold = recur(prices, i+1, false, false);
+            return dp[i][cooldown][buy] = max(sold, not_sold);
         }
-       }  
+
+    }
+
+    int maxProfit(vector<int>& prices) {
+        for (int i=0;i<=prices.size();i++) 
+            for (int j=0;j<2;j++) 
+                for (int k=0;k<2;k++) 
+                    dp[i][j][k] = INT_MIN;
+        return recur(prices, 0, false, true);
     }
 };
 
